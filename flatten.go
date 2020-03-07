@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-// Struct flattens a struct with json tags
+// Struct parses a struct `s` with JSON tags and flattens nested parameters
+// to only one level and passes the result to `m`.
 func Struct(s interface{}, m map[string]interface{}) {
 	flatten("", s, m)
 }
