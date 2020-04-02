@@ -5,6 +5,12 @@
 
 ## Usage
 
+```go
+var TimeFormat = time.RFC3339Nano
+```
+TimeFormat defines default time format when unmarshalling time.Time Override
+this to unmarshal time.Time to a different format
+
 #### func  Struct
 
 ```go
