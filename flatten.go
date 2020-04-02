@@ -4,7 +4,12 @@ import (
 	"log"
 	"reflect"
 	"strings"
+	"time"
 )
+
+// TimeFormat defines default time format when unmarshalling time.Time
+// Override this to unmarshal time.Time to a different format
+var TimeFormat = time.RFC3339Nano
 
 // Struct parses a struct `s` with JSON tags and flattens nested parameters
 // to only one level and passes the result to `m`.
@@ -33,7 +38,12 @@ func flatten(key string, s interface{}, m map[string]interface{}) {
 
 		switch reflect.ValueOf(val.Field(i).Interface()).Kind() {
 		case reflect.Struct:
-			flatten(tag, val.Field(i).Interface(), m)
+			switch val.Field(i).Interface().(type) {
+			case time.Time:
+				m[tag] = val.Field(i).Interface().(time.Time).Format(TimeFormat)
+			default:
+				flatten(tag, val.Field(i).Interface(), m)
+			}
 		default:
 			if !reflect.DeepEqual(val.Field(i).Interface(), reflect.Zero(val.Field(i).Type()).Interface()) {
 				m[tag] = val.Field(i).Interface()
