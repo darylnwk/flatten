@@ -8,6 +8,7 @@ import (
 )
 
 // TimeFormat defines default time format when unmarshalling time.Time
+//
 // Override this to unmarshal time.Time to a different format
 var TimeFormat = time.RFC3339Nano
 
